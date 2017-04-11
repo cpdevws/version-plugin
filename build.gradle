@@ -3,10 +3,11 @@ version '1.0'
 
 apply plugin: 'groovy'
 apply plugin: 'jacoco'
+apply plugin: 'maven'
+apply plugin: 'signing'
 
 repositories {
-    jcenter()
-    mavenLocal()
+    mavenCentral()
 }
 
 jacocoTestReport {
@@ -18,12 +19,12 @@ jacocoTestReport {
 }
 
 groovydoc {
-    docTitle = 'Semantic Versioning 2.0 Gradle Plugin<br/>(org.crosslibs.plugins)<br/>'
-    windowTitle = 'org.crosslibs.plugins:1.0'
+    docTitle = 'Semantic Versioning Gradle Plugin<br/>(org.crosslibs.version-plugin)<br/>'
+    windowTitle = 'org.crosslibs.version-plugin:1.0'
 }
 
 task docsjar(type: Jar, dependsOn: groovydoc){
-    classifier = 'groovydoc'
+    classifier = 'javadoc'
     from groovydoc.destinationDir
 }
 
@@ -37,9 +38,51 @@ artifacts {
     archives sourcesjar
 }
 
+signing {
+    sign configurations.archives
+}
+
 uploadArchives {
     repositories {
-        mavenLocal()
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'Gradle Semantic Version Plugin'
+                packaging 'jar'
+                description 'Gradle plugin for versioning of build artifacts based on semantic version rules'
+                url 'https://github.com/cpdevws/version-plugin'
+
+                scm {
+                    connection 'scm:git:git://github.com/cpdevws/version-plugin.git'
+                    developerConnection 'scm:git:ssh://github.com:cpdevws/version-plugin.git'
+                    url 'https://github.com/cpdevws/version-plugin/tree/master'
+                }
+
+                licenses {
+                    license {
+                        name 'MIT License'
+                        url 'http://www.opensource.org/licenses/mit-license.php'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'cpdevws'
+                        name 'Chaitanya Prakash N'
+                        email 'cpdevws@gmail.com'
+                    }
+                }
+            }
+        }
     }
 }
 
