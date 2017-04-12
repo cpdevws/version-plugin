@@ -3,6 +3,7 @@ package org.crosslibs.plugins
 import org.crosslibs.plugins.extensions.VersionPluginExtension
 import org.crosslibs.plugins.tasks.CurrentVersionTask
 import org.crosslibs.plugins.tasks.IncrementVersionTask
+import org.crosslibs.plugins.utils.Version
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -25,5 +26,6 @@ class VersionPlugin implements Plugin<Project> {
         project.extensions.create Constants.PLUGIN_EXT, VersionPluginExtension
         project.tasks.create Constants.PLUGIN_TASK_CURRENT_VERSION, CurrentVersionTask
         project.tasks.create Constants.PLUGIN_TASK_INCREMENT_VERSION, IncrementVersionTask
+        project.setVersion(Version.current(project))
     }
 }

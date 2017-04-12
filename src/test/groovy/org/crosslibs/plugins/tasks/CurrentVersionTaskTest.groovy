@@ -42,9 +42,9 @@ public class CurrentVersionTaskTest {
         runAndAssertEqual "Current Version: 0.0.0", { task.execute() }
     }
 
-    @Test
-    void should_return_version_from_properties_when_version_properties_file_is_available(){
-        assert (task as CurrentVersionTask).getVersion(file.path) == new SemanticVersion('1.2.3-SNAPSHOT')
-    }
+//    @Test
+//    void should_return_version_from_properties_when_version_properties_file_is_available(){
+//        assert (task as CurrentVersionTask).getVersion(file.path) == new SemanticVersion('1.2.3-SNAPSHOT')
+//    }
 
 }

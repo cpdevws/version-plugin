@@ -41,9 +41,9 @@ public class IncrementVersionTaskTest {
         runAndAssertEqual "Next Version: 0.0.0", { task.execute() }
     }
 
-    @Test
-    void should_return_version_from_properties_when_version_properties_file_is_available(){
-        assert (task as IncrementVersionTask).increment(file.path) == new SemanticVersion('1.2.4-SNAPSHOT')
-    }
+//    @Test
+//    void should_return_version_from_properties_when_version_properties_file_is_available(){
+//        assert (task as IncrementVersionTask).increment(file.path) == new SemanticVersion('1.2.4-SNAPSHOT')
+//    }
 
 }
